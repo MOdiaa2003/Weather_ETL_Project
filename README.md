@@ -115,6 +115,8 @@ project/
 - **OpenWeather API**: Provides 5-day weather forecast data.
 
 ---
+## Data
+the data of cities,countries and weather forecast for each cities are provided at the files above 
 
 ## Notes
 
