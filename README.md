@@ -125,8 +125,5 @@ project/
 
 ---
 
-## Author
-Mohamed Saad
-
 ## my_linkedin
 https://www.linkedin.com/in/mohameddiaa2003/
