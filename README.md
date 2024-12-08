@@ -1,4 +1,4 @@
-# #Weather ETL Pipeline
+# Weather ETL Pipeline
 
 ## Overview
 
@@ -23,6 +23,22 @@ This project defines an **Airflow DAG** that automates the process of extracting
    - `world_population_api` for fetching country and city data.
    - `openweather_api` with the OpenWeather API key.
    - `postgres_default1` for connecting to PostgreSQL.
+
+---
+
+## Handling Data Persistence in Docker
+
+If the PostgreSQL database is running in a Docker container, the database's data will not persist unless a **Docker volume** is configured. Without this configuration, the database content (such as the `weather_forecast` table) will be lost when the container is stopped.
+
+To ensure data persistence:
+1. Create a Docker volume:
+   ```bash
+   docker volume create postgres_data
+   ```
+2. Use the volume when running the PostgreSQL container:
+   ```bash
+   docker run --name postgres -e POSTGRES_USER=your_user -e POSTGRES_PASSWORD=your_password -e POSTGRES_DB=your_db -v postgres_data:/var/lib/postgresql/data -p 5432:5432 postgres
+   ```
 
 ---
 
@@ -105,8 +121,12 @@ project/
 - Ensure appropriate API limits are respected to avoid service disruption.
 - Temporary CSV files are stored in `/tmp/`. These can be modified in the DAG script if needed.
 - PostgreSQL table creation is idempotent; running the DAG multiple times will not duplicate the table.
+- For Dockerized PostgreSQL, use volumes to persist the database data between container restarts.
 
 ---
+
+## Author
+Mohamed Saad
 
 ## my_linkedin
 https://www.linkedin.com/in/mohameddiaa2003/
