@@ -1,3 +1,7 @@
+Here's the updated `README.md` reflecting the new method of starting Airflow using **Astro CLI** and **Docker Compose** configuration:
+
+---
+
 # Weather ETL Pipeline
 
 ## Overview
@@ -15,30 +19,61 @@ This project defines an **Airflow DAG** that automates the process of extracting
 
 ## Prerequisites
 
-1. **Apache Airflow** installed and configured.
-2. **PostgreSQL** database with a connection set up in Airflow.
-3. **OpenWeather API** key for fetching weather data.
-4. **BeautifulSoup4** and **pandas** Python libraries for data processing.
-5. Configured Airflow connections:
+1. **Astro CLI** installed ([Installation Guide](https://docs.astronomer.io/astro/install-astro-cli)).
+2. **Docker** installed and running.
+3. **PostgreSQL** database configured within Docker Compose.
+4. **OpenWeather API** key for fetching weather data.
+5. **BeautifulSoup4** and **pandas** Python libraries for data processing.
+6. Configured Airflow connections:
    - `world_population_api` for fetching country and city data.
    - `openweather_api` with the OpenWeather API key.
    - `postgres_default1` for connecting to PostgreSQL.
 
 ---
 
-## Handling Data Persistence in Docker
+## Starting Airflow with Astro CLI and Docker Compose
 
-If the PostgreSQL database is running in a Docker container, the database's data will not persist unless a **Docker volume** is configured. Without this configuration, the database content (such as the `weather_forecast` table) will be lost when the container is stopped.
+1. **Initialize the Astro Project**:
+   ```bash
+   astro dev init
+   ```
 
-To ensure data persistence:
-1. Create a Docker volume:
-   ```bash
-   docker volume create postgres_data
+2. **Configure Docker Compose**:
+
+   Create a `docker-compose.yml` file with the following content:
+
+   ```yaml
+   version: '3'
+   services:
+     postgres:
+       image: postgres:13
+       container_name: postgres_db
+       environment:
+         POSTGRES_USER: postgres
+         POSTGRES_PASSWORD: postgres
+         POSTGRES_DB: postgres
+       ports:
+         - "5432:5432"
+       volumes:
+         - postgres_data:/var/lib/postgresql/data
+
+   volumes:
+     postgres_data:
    ```
-2. Use the volume when running the PostgreSQL container:
+
+3. **Start Airflow**:
    ```bash
-   docker run --name postgres -e POSTGRES_USER=your_user -e POSTGRES_PASSWORD=your_password -e POSTGRES_DB=your_db -v postgres_data:/var/lib/postgresql/data -p 5432:5432 postgres
+   astro dev start
    ```
+
+4. **Access Airflow UI**:
+   - Open [http://localhost:8080](http://localhost:8080) in your browser.
+   - Default credentials: `admin` / `admin`.
+
+5. **Create Connections in Airflow UI**:
+   - `world_population_api`: HTTP connection for country/city data.
+   - `openweather_api`: HTTP connection with `api_key` for OpenWeather.
+   - `postgres_default1`: PostgreSQL connection (`Host: postgres`, `Port: 5432`, `User: postgres`, `Password: postgres`).
 
 ---
 
@@ -73,6 +108,7 @@ project/
 │   ├── cities_with_populations.csv      # Temporary file for city data
 │   ├── weather_forecast_all_cities.csv  # Temporary file for raw weather data
 │   └── transformed_weather_data.csv     # Temporary file for transformed data
+├── docker-compose.yml                   # Docker Compose configuration for PostgreSQL
 └── README.md                            # This file
 ```
 
@@ -94,16 +130,18 @@ project/
 
 ---
 
-## How to Run
+## How to Run the DAG
 
-1. **Start Airflow**:
+1. **Start Airflow** using Astro CLI:
    ```bash
-   airflow scheduler & airflow webserver
+   astro dev start
    ```
-2. **Create Connections in Airflow**:
+
+2. **Create Connections** in the Airflow UI:
    - `world_population_api`: HTTP connection for country/city data.
    - `openweather_api`: HTTP connection with `api_key` for OpenWeather.
-   - `postgres_default1`: PostgreSQL connection.
+   - `postgres_default1`: PostgreSQL connection (`Host: postgres`, `Port: 5432`).
+
 3. **Trigger the DAG**:
    - Log in to the Airflow web UI and trigger the `updated_weather_etl_pipeline` DAG.
 
@@ -115,8 +153,12 @@ project/
 - **OpenWeather API**: Provides 5-day weather forecast data.
 
 ---
+
 ## Data
-the data of cities,countries and weather forecast for each cities are provided at the files above 
+
+The data for cities, countries, and weather forecasts are stored in the temporary files listed in the **File Structure** section.
+
+---
 
 ## Notes
 
@@ -127,5 +169,6 @@ the data of cities,countries and weather forecast for each cities are provided a
 
 ---
 
-## my_linkedin
-https://www.linkedin.com/in/mohameddiaa2003/
+## My LinkedIn
+
+[https://www.linkedin.com/in/mohameddiaa2003/](https://www.linkedin.com/in/mohameddiaa2003/)
