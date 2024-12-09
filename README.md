@@ -17,7 +17,7 @@ This project defines an **Airflow DAG** that automates the process of extracting
 
 ## Prerequisites
 
-1. **Astro CLI** installed ([Installation Guide]([https://docs.astronomer.io/astro/install-astro-cli](https://www.astronomer.io/docs/astro/cli/install-cli/?tab=windowswithwinget#install-the-astro-cli)).
+1. **Astro CLI** installed ([Installation Guide]([https://docs.astronomer.io/astro/install-astro-cli](https://www.astronomer.io/docs/astro/cli/install-cli/?tab=windowswithwinget#install-the-astro-cli))).
 2. **Docker** installed and running.
 3. **PostgreSQL** database configured within Docker Compose.
 4. **OpenWeather API** key for fetching weather data.
