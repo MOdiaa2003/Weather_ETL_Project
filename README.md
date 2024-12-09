@@ -167,6 +167,6 @@ The data for cities, countries, and weather forecasts are stored in the temporar
 
 ---
 
-## My LinkedIn
 
-[https://www.linkedin.com/in/mohameddiaa2003/](https://www.linkedin.com/in/mohameddiaa2003/)
+
+[linkedin](https://www.linkedin.com/in/mohameddiaa2003/)
