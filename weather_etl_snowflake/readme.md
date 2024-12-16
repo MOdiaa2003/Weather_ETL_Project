@@ -77,8 +77,8 @@ The ETL pipeline fetches top 🌍 countries and 🏙️ cities data from the **W
 ### 1. 📂 Clone the Repository
 
 ```bash
-git clone https://github.com/<your-repo-name>.git
-cd <your-repo-name>
+git clone https://github.com/MOdiaa2003/Weather_ETL_Project.git
+cd Weather_ETL_Project/weather_etl_snowflake
 ```
 
 ### 2. ⚙️ Configure Airflow
